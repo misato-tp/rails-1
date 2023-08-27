@@ -1,0 +1,49 @@
+<h5>予定一覧</h5>
+
+<div class="text-right">
+    <%=link_to "新規追加", :new_schedule, class:"btn btn-primary" %>
+</div>
+
+<% if flash[:notice] %>
+   <p class="notice"><%= flash[:notice] %></p>
+ <% end %>
+ 
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>タイトル</th>
+      <th>開始日</th>
+      <th>終了日</th>
+      <th>終日</th>
+      <th>更新日時</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @schedules.each do |schedule| %>
+      <tr>
+        <td><%= schedule.id %></td>
+        <td><%= schedule.title %></td>
+        <td><%= l schedule.start %></td>
+        <td><%= l schedule.end %></td>
+        <td><%= schedule.all_day ? '○' :''%></td>
+        <td><%= schedule.updated_at.to_s(:datetime_jp) %></td>
+        <td><%= link_to "参照", schedule %></td>
+        <td><%= link_to "編集", [:edit,schedule] %></td>
+        <td><%= link_to "削除", schedule, method: :delete, data:{ confirm:'予定を削除しますか？'} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+予定合計<%= @schedules.count%>件
+本日の日付
+<script>
+const today=new Date();
+const year = today.getFullYear();
+const month = today.getMonth()+1;
+const week = today.getDay();
+const day = today.getDate();
+document.write(year+"/"+month+"/"+day);
+</script>
